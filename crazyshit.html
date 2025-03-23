@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Partium Xperience</title>
+    <link rel="icon" type="image/x-icon" href="partium.jpg">
     <style>
         :root {
             --gold: #FFD700;
@@ -106,7 +107,7 @@
         }
 
         .hero {
-            height: 80vh;
+            height: 60vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -226,6 +227,16 @@
             box-shadow: 0 0 15px var(--neon-blue);
         }
 
+        /* Swipe Text */
+        .swipe-text {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.5rem;
+            color: var(--neon);
+            text-shadow: 0 0 10px var(--neon);
+            animation: glow 2s infinite alternate;
+        }
+
         /* Existing Scroll Container (Leave Untouched) */
         .scroll-container {
             display: flex;
@@ -323,44 +334,44 @@
             to { text-shadow: 0 0 20px var(--neon); }
         }
         @media (max-width: 768px) {
-    .header {
-        flex-direction: column;
-        padding: 10px;
-    }
+            .header {
+                flex-direction: column;
+                padding: 10px;
+            }
 
-    .nav-buttons {
-        margin-top: 10px;
-        gap: 10px;
-    }
+            .nav-buttons {
+                margin-top: 10px;
+                gap: 10px;
+            }
 
-    .hero h1 {
-        font-size: 8vw;
-    }
+            .hero h1 {
+                font-size: 8vw;
+            }
 
-    .auth-section input {
-        margin-left: 0;
-        width: 100%;
-        margin-top: 10px;
-    }
+            .auth-section input {
+                margin-left: 0;
+                width: 100%;
+                margin-top: 10px;
+            }
 
-    .button-container {
-        grid-template-columns: 1fr;
-        padding: 1rem;
-    }
+            .button-container {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
 
-    .event-item img {
-        height: 200px;
-    }
+            .event-item img {
+                height: 200px;
+            }
 
-    .footer {
-        padding: 10px;
-    }
-}
-@media (hover: none) {
-    .cursor {
-        display: none;
-    }
-}
+            .footer {
+                padding: 10px;
+            }
+        }
+        @media (hover: none) {
+            .cursor {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -412,7 +423,13 @@
             <img src="maskedmusings5.png" alt="Event 3">
             <div class="event-content">
                 <h2>MASKED MUSINGS</h2>
+            </div>
         </div>
+    </div>
+
+    <!-- Swipe Right Text -->
+    <div class="swipe-text">
+        <h2>Swipe Right ⇛⇛</h2>
     </div>
 
     <!-- Existing Scroll Container (Leave Untouched) -->
