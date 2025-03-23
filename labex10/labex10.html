@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: black;
+            color: white;
+        }
+        table {
+            width: 60%;
+            margin: auto;
+            border-collapse: collapse;
+            background-color: #222;
+            color: white;
+        }
+        th, td {
+            border: 1px solid red;
+            padding: 12px;
+        }
+        th {
+            background-color: red;
+            color: white;
+        }
+        button {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: darkred;
+        }
+        input {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid red;
+            background-color: black;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h2>Employee Management</h2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Salary</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="employeeTable"></tbody>
+    </table>
+
+    <h3>Add Employee</h3>
+    <input type="text" id="name" placeholder="Name">
+    <input type="text" id="department" placeholder="Department">
+    <input type="number" id="salary" placeholder="Salary">
+    <button onclick="addEmployee()">Add</button>
+
+    <script>
+        const API_URL = "http://127.0.0.1:5000";
+
+        function fetchEmployees() {
+            fetch(`${API_URL}/employees`)
+                .then(response => response.json())
+                .then(data => {
+                    let tableData = "";
+                    data.forEach(emp => {
+                        tableData += `<tr>
+                            <td>${emp.id}</td>
+                            <td>${emp.name}</td>
+                            <td>${emp.department}</td>
+                            <td>${emp.salary}</td>
+                            <td>
+                                <button onclick="deleteEmployee(${emp.id})">Delete</button>
+                            </td>
+                        </tr>`;
+                    });
+                    document.getElementById("employeeTable").innerHTML = tableData;
+                });
+        }
+
+        function addEmployee() {
+            const name = document.getElementById("name").value;
+            const department = document.getElementById("department").value;
+            const salary = document.getElementById("salary").value;
+
+            fetch(`${API_URL}/employee`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, department, salary })
+            }).then(() => fetchEmployees());
+        }
+
+        function deleteEmployee(id) {
+            fetch(`${API_URL}/employee/${id}`, { method: "DELETE" })
+                .then(() => fetchEmployees());
+        }
+
+        window.onload = fetchEmployees;
+    </script>
+</body>
+</html>

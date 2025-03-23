@@ -95,6 +95,40 @@
             background-color: #00cccc;
             transform: scale(1.05);
         }
+        @media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .box {
+        width: 90vw;
+        height: 90vw;
+    }
+
+    .textbox {
+        width: 90vw;
+        font-size: 16px;
+        padding: 15px;
+    }
+
+    .home-button {
+        width: 80vw;
+        font-size: 14px;
+    }
+}
+
+@media (hover: none) {
+    .box {
+        pointer-events: none;
+    }
+
+    .textbox {
+        opacity: 1;
+        content: "Hover effects are disabled on touch devices.";
+    }
+}
+
     </style>
 </head>
 <body>
