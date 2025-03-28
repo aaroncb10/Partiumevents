@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Partium Xperience</title>
-    <link rel="icon" type="image/jpeg" href="/partium.jpg">
+    <link rel="icon" type="image/x-icon" href="partium.jpg">
     <style>
         :root {
             --gold: #FFD700;
@@ -28,6 +28,7 @@
             color: white;
         }
 
+        /* Custom Cursor */
         .cursor {
             width: 20px;
             height: 20px;
@@ -40,6 +41,17 @@
             z-index: 999;
         }
 
+        /* Particle Canvas */
+        .particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Rest of your styles remain unchanged */
         .event-marquee {
             background: var(--gold);
             color: var(--blue);
@@ -155,14 +167,7 @@
             box-shadow: 0 10px 30px rgba(255,0,255,0.3);
         }
 
-        .particle-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: -1;
-        }
-
-        /* New Stacked Event Containers */
+        /* Event Stack Styles */
         .event-stack {
             display: flex;
             flex-direction: column;
@@ -192,7 +197,6 @@
             object-fit: cover;
         }
 
-        /* Centered Text and Button for Event 1 */
         .event-item .event-content {
             position: absolute;
             top: 50%;
@@ -227,7 +231,7 @@
             box-shadow: 0 0 15px var(--neon-blue);
         }
 
-        /* Swipe Text */
+        /* Gallery Styles */
         .swipe-text {
             text-align: center;
             margin: 20px 0;
@@ -237,7 +241,6 @@
             animation: glow 2s infinite alternate;
         }
 
-        /* Existing Scroll Container (Leave Untouched) */
         .scroll-container {
             display: flex;
             overflow-x: auto;
@@ -270,7 +273,7 @@
             object-fit: cover;
         }
 
-        /* Footer Section */
+        /* Footer Styles */
         .footer {
             background: rgba(0,0,0,0.8);
             padding: 20px 50px;
@@ -320,6 +323,7 @@
             scrollbar-width: none;
         }
 
+        /* Animations */
         @keyframes glitch {
             0% { transform: translate(0) }
             20% { transform: translate(-2px, 2px) }
@@ -333,6 +337,8 @@
             from { text-shadow: 0 0 10px var(--neon); }
             to { text-shadow: 0 0 20px var(--neon); }
         }
+
+        /* Mobile Styles */
         @media (max-width: 768px) {
             .header {
                 flex-direction: column;
@@ -342,6 +348,13 @@
             .nav-buttons {
                 margin-top: 10px;
                 gap: 10px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero {
+                height: 40vh;
+                margin: 20px;
             }
 
             .hero h1 {
@@ -363,10 +376,20 @@
                 height: 200px;
             }
 
+            .event-item .event-content h2 {
+                font-size: 1.8rem;
+            }
+
+            .image-item {
+                width: 300px;
+                height: 450px;
+            }
+
             .footer {
                 padding: 10px;
             }
         }
+
         @media (hover: none) {
             .cursor {
                 display: none;
@@ -399,40 +422,36 @@
         <h1>PARTIUM EVENTS</h1>
     </div>
 
-    <!-- New Stacked Event Containers -->
+    <!-- Event Stack -->
     <div class="event-stack">
-        <!-- First Event (with Text and Button) -->
-        <div class="event-item">
-            <img src="revitup4.jpg" alt="Event 1">
+        <div class="event-item" onclick="window.location.href='https://forms.gle/zwFbKz8jJVofHm3f8'">
+            <img src="revitup4.jpg" alt="REV IT UP">
             <div class="event-content">
                 <h2>REV IT UP</h2>
                 <a href="https://forms.gle/zwFbKz8jJVofHm3f8" class="book-now-button">Book Now</a>
             </div>
         </div>
 
-        <!-- Second Event (No Button) -->
         <div class="event-item">
-            <img src="y2k5.jpg" alt="Event 2">
+            <img src="y2k5.jpg" alt="Y2K THROWBACK">
             <div class="event-content">
                 <h2>Y2K THROWBACK</h2>
             </div>
         </div>
 
-        <!-- Third Event (No Button) -->
         <div class="event-item">
-            <img src="maskedmusings5.png" alt="Event 3">
+            <img src="maskedmusings5.png" alt="MASKED MUSINGS">
             <div class="event-content">
                 <h2>MASKED MUSINGS</h2>
             </div>
         </div>
     </div>
 
-    <!-- Swipe Right Text -->
+    <!-- Gallery -->
     <div class="swipe-text">
         <h2>Swipe Right ⇛⇛</h2>
     </div>
 
-    <!-- Existing Scroll Container (Leave Untouched) -->
     <div class="scroll-container">
         <div class="image-row">
             <div class="image-item"><img src="pic1 (1).JPG" alt=""></div>
@@ -462,7 +481,7 @@
         REV IT UP COMING SOON!
     </marquee>
 
-    <!-- Footer Section -->
+    <!-- Footer -->
     <div class="footer">
         <h2>EXPERIENCE THE BEST WITH PARTIUM</h2>
         <div class="footer-links">
@@ -482,23 +501,29 @@
             cursor.style.top = e.clientY + 'px';
         });
 
-        // Particle System
+        // Heavy Particle System
         const canvas = document.querySelector('.particle-canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
+        // Adjust particle count based on device capability
+        const isMobile = window.matchMedia("(max-width: 768px)").matches;
+        const particleCount = isMobile ? 150 : 300;
+
         class Particle {
             constructor() {
                 this.reset();
-                this.size = Math.random() * 2 + 1;
+                this.size = Math.random() * 3 + 1;
+                this.color = `hsla(${Math.random() * 360}, 100%, 50%, ${Math.random() * 0.5 + 0.3})`;
             }
 
             reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.speedX = Math.random() * 3 - 1.5;
-                this.speedY = Math.random() * 3 - 1.5;
+                this.speedX = Math.random() * 4 - 2;
+                this.speedY = Math.random() * 4 - 2;
+                this.alpha = Math.random() * 0.5 + 0.1;
             }
 
             update() {
@@ -512,42 +537,46 @@
             }
 
             draw() {
-                ctx.fillStyle = `hsla(${Math.random() * 360}, 100%, 50%, 0.8)`;
+                ctx.fillStyle = this.color;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
             }
         }
 
-        const particles = Array(100).fill().map(() => new Particle());
+        const particles = Array(particleCount).fill().map(() => new Particle());
 
         function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // Create trail effect
+            ctx.fillStyle = 'rgba(10, 31, 59, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
             particles.forEach(particle => {
                 particle.update();
                 particle.draw();
             });
+            
             requestAnimationFrame(animate);
         }
+
+        // Start animation
         animate();
 
-        // Hover Effects
-        document.querySelectorAll('.event-button, .nav-buttons a, .footer-links a').forEach(btn => {
-            btn.addEventListener('mouseenter', () => {
-                btn.style.transform = `translateY(-5px)`;
-                btn.style.boxShadow = `0 10px 20px rgba(255,0,255,0.3)`;
-            });
-
-            btn.addEventListener('mouseleave', () => {
-                btn.style.transform = 'translateY(0)';
-                btn.style.boxShadow = 'none';
-            });
-        });
-
-        // Resize Handler
+        // Handle resize
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
+        });
+
+        // Mobile touch interactions
+        document.querySelectorAll('.event-button, .nav-buttons a, .event-item').forEach(el => {
+            el.addEventListener('touchstart', () => {
+                el.style.transform = 'scale(0.95)';
+            });
+            
+            el.addEventListener('touchend', () => {
+                el.style.transform = '';
+            });
         });
     </script>
 </body>
