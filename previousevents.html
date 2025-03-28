@@ -2,168 +2,170 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hover Reveal Text</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Event Gallery</title>
     <style>
-        body {
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #1a1a1a;
+            color: white;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .gallery {
+            width: 100%;
+            max-width: 1000px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .event-card {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 1/1;
+            transition: transform 0.3s ease;
+        }
+
+        .event-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.5s ease;
+        }
+
+        .event-info {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 204, 204, 0.9);
+            color: #1a1a1a;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background-color: #1a1a1a;
-            font-family: 'Comic Sans MS', cursive, sans-serif; /* Casual and goofy font */
-            color: white;
-        }
-
-        .container {
-            display: flex;
-            gap: 50px;
-        }
-
-        .box {
-            width: 420px;
-            height: 420px;
-            background-color: #333;
-            border: 2px solid #00ffff;
-            border-radius: 15px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.3s ease, background-color 0.3s ease;
-            position: relative;
-        }
-
-        .box:hover {
-            background-color: #00ffff;
-            transform: scale(1.1);
-        }
-
-        .box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 15px;
-            transition: transform 0.3s ease;
-        }
-
-        .textbox {
-            width: 400px;
-            padding: 20px;
-            background-color: #333;
-            border: 2px solid #00ffff;
-            border-radius: 15px;
-            margin-top: 20px;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.5s ease;
             text-align: center;
-            font-size: 20px;
-            font-family: 'Comic Sans MS', cursive, sans-serif; /* Casual and goofy font */
+            font-size: 18px;
             line-height: 1.6;
         }
 
-        .box1:hover ~ .textbox {
+        .event-card.active img {
+            opacity: 0.3;
+        }
+
+        .event-card.active .event-info {
             opacity: 1;
-            content: "This is the text for Box 1.";
         }
 
-        .box2:hover ~ .textbox {
-            opacity: 1;
-            content: "This is the text for Box 2.";
-        }
-
-        .textbox::before {
-            content: attr(data-text);
-        }
-
-        /* Return to Homepage Button */
         .home-button {
-            margin-top: 30px;
-            padding: 12px 24px;
+            padding: 15px 30px;
             background-color: #00ffff;
             color: #1a1a1a;
             border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            font-family: 'Comic Sans MS', cursive, sans-serif; /* Casual and goofy font */
+            border-radius: 30px;
+            font-size: 18px;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s ease;
+            transition: all 0.3s ease;
+            margin-top: 30px;
         }
 
         .home-button:hover {
             background-color: #00cccc;
             transform: scale(1.05);
         }
+
         @media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-        gap: 20px;
-    }
+            .gallery {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
 
-    .box {
-        width: 90vw;
-        height: 90vw;
-    }
+            .event-info {
+                padding: 15px;
+                font-size: 16px;
+            }
 
-    .textbox {
-        width: 90vw;
-        font-size: 16px;
-        padding: 15px;
-    }
+            .home-button {
+                width: 100%;
+                max-width: 300px;
+                padding: 12px 24px;
+            }
+        }
 
-    .home-button {
-        width: 80vw;
-        font-size: 14px;
-    }
-}
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
 
-@media (hover: none) {
-    .box {
-        pointer-events: none;
-    }
-
-    .textbox {
-        opacity: 1;
-        content: "Hover effects are disabled on touch devices.";
-    }
-}
-
+            .event-info {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Box 1 -->
-        <div class="box box1" data-text="Masked Musings was an enchanting open mic event held at Hotel Presidency, marking Partium’s first-ever event. 
-        With a carnival-inspired masquerade theme,
-        The night featured talented performers showcasing music and dance performances, 
-        creating a vibrant artistic atmosphere.">
+    <div class="gallery">
+        <!-- Event 1 -->
+        <div class="event-card" onclick="toggleEvent(this)">
             <img src="maskedmusings4.png" alt="Masked Musings">
+            <div class="event-info">
+                <h3>Masked Musings</h3>
+                <p>An enchanting open mic event held at Hotel Presidency, marking Partium's first-ever event. With a carnival-inspired masquerade theme, the night featured talented performers showcasing music and dance performances, creating a vibrant artistic atmosphere.</p>
+            </div>
         </div>
 
-        <!-- Box 2 -->
-        <div class="box box2" data-text="Y2K – A Nostalgic Trip to the 2000s
-        Y2K was a vibrant event that transported everyone back to the 2000s, celebrating the era’s fashion, music, and energy. 
-        The night came alive with a DJ set playing iconic 2000s hits, bringing back the golden days of pop, hip-hop, and R&B. 
-        A true blast from the past">
+        <!-- Event 2 -->
+        <div class="event-card" onclick="toggleEvent(this)">
             <img src="y2k4.png" alt="Y2K Event">
+            <div class="event-info">
+                <h3>Y2K – A Nostalgic Trip</h3>
+                <p>A vibrant event that transported everyone back to the 2000s, celebrating the era's fashion, music, and energy. The night came alive with a DJ set playing iconic 2000s hits, bringing back the golden days of pop, hip-hop, and R&B.</p>
+            </div>
         </div>
-
-        <!-- Textbox -->
-        <div class="textbox" data-text=""></div>
     </div>
 
-    <!-- Return to Homepage Button -->
     <button class="home-button" onclick="window.location.href='crazyshit.html'">Return to Homepage</button>
 
     <script>
-        const boxes = document.querySelectorAll('.box');
-        const textbox = document.querySelector('.textbox');
-
-        boxes.forEach(box => {
-            box.addEventListener('mouseover', () => {
-                textbox.setAttribute('data-text', box.getAttribute('data-text'));
+        function toggleEvent(card) {
+            // Close any open cards first
+            document.querySelectorAll('.event-card').forEach(item => {
+                if (item !== card && item.classList.contains('active')) {
+                    item.classList.remove('active');
+                }
             });
+            
+            // Toggle the clicked card
+            card.classList.toggle('active');
+        }
+
+        // Close card when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.event-card') && !event.target.closest('.home-button')) {
+                document.querySelectorAll('.event-card').forEach(card => {
+                    card.classList.remove('active');
+                });
+            }
         });
     </script>
 </body>
